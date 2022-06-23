@@ -6,6 +6,6 @@ I wanted to add a slider as well to change the color of the led ring inside.
 
 ## Parts List
 
-[NeoSlider](https://learn.adafruit.com/adafruit-neoslider)
-[Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/)
-[NeoPixel Ring 24](https://www.adafruit.com/product/1586)
+* [NeoSlider](https://learn.adafruit.com/adafruit-neoslider)
+* [Raspberry Pi Pico](https://www.raspberrypi.com/products/raspberry-pi-pico/)
+* [NeoPixel Ring 24](https://www.adafruit.com/product/1586)
