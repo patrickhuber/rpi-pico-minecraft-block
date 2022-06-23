@@ -5,17 +5,23 @@ import time
 import board
 import busio
 import neopixel
-import microcontroller
+
+from rainbowio import colorwheel
+from adafruit_seesaw.seesaw import Seesaw
+from adafruit_seesaw.analoginput import AnalogInput
+from adafruit_seesaw import neopixel as seesaw_neopixel
 
 # from adafruit_seesaw.seesaw import Seesaw
 sda=board.GP4
 scl=board.GP5
 
-# # This is the bus for the slider
+# This is the bus for the slider
 i2c = busio.I2C(scl, sda)
 
-# ss = Seesaw(i2c_bus)
-# ss.pin_mode(15, ss.OUTPUT)
+# NeoSlider setup
+neoslider = Seesaw(i2c, 0x30)
+potentiometer = AnalogInput(neoslider, 18)
+neoslider_pixels = seesaw_neopixel.NeoPixel(neoslider, 14, 4)
 
 # On CircuitPlayground Express, and boards with built in status NeoPixel -> board.NEOPIXEL
 # Otherwise choose an open pin connected to the Data In of the NeoPixel strip, i.e. board.D1
@@ -34,7 +40,6 @@ ORDER = neopixel.RGBW
 pixels = neopixel.NeoPixel(
     pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
 )
-
 
 def wheel(pos):
     # Input a value 0 to 255 to get a color value.
@@ -66,6 +71,14 @@ def rainbow_cycle(wait):
         pixels.show()
         time.sleep(wait)
 
+def fill_ring_color(color):
+    for i in range(num_pixels):
+        pixels[i] = wheel(color)
+    pixels.show()
+
+def potentiometer_to_color(value):
+    """Scale the potentiometer values (0-1023) to the colorwheel values (0-255)."""
+    return value / 1023 * 255
 
 while True:
     # Comment this line out if you have RGBW/GRBW NeoPixels
@@ -89,7 +102,13 @@ while True:
     #pixels.show()
     #time.sleep(1)
 
-    rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
+    # Fill the pixels a color based on the position of the potentiometer.
+    led_color = potentiometer_to_color(potentiometer.value)
+    neoslider_pixels.fill(colorwheel(led_color))
+    fill_ring_color(led_color)
+
+    # run the rainbow cycle for the pixel ring
+    # rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
 
     # ss.digital_write(15, True)  # turn the LED on (True is the voltage level)
     # time.sleep(1)  # wait for a second
