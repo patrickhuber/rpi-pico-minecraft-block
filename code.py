@@ -5,11 +5,14 @@ import time
 import board
 import busio
 import neopixel
+import microcontroller
 
 # from adafruit_seesaw.seesaw import Seesaw
+sda=board.GP4
+scl=board.GP5
 
 # # This is the bus for the slider
-#i2c = busio.I2C(scl=board.GP7, sda=board.GP6)
+i2c = busio.I2C(scl, sda)
 
 # ss = Seesaw(i2c_bus)
 # ss.pin_mode(15, ss.OUTPUT)
@@ -87,7 +90,7 @@ while True:
     #time.sleep(1)
 
     rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
-    
+
     # ss.digital_write(15, True)  # turn the LED on (True is the voltage level)
     # time.sleep(1)  # wait for a second
     # ss.digital_write(15, False)  # turn the LED off by making the voltage LOW
