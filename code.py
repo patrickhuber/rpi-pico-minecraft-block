@@ -31,14 +31,14 @@ pixel_pin = board.GP0
 # pixel_pin = board.D18
 
 # The number of NeoPixels
-num_pixels = 24
+num_pixels = 60
 
 # The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
 # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
 ORDER = neopixel.RGBW
 
 pixels = neopixel.NeoPixel(
-    pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER
+    pixel_pin, num_pixels, brightness=0.6, auto_write=False, pixel_order=ORDER
 )
 
 def wheel(pos):
